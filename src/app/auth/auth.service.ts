@@ -22,7 +22,7 @@ export class AuthService {
 
   logout() {
     localStorage.removeItem('currentUser');
-    this.router.navigate(['/login']);
+    this.router.navigate(['/']);
   }
 
   isLoggined() {

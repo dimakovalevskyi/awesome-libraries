@@ -8,6 +8,9 @@ import {
   MatButtonModule,
   MatToolbarModule,
   MatIconModule,
+  MatCardModule,
+  MatInputModule,
+  MatProgressSpinnerModule,
 } from '@angular/material';
 
 import { AppComponent } from './app.component';
@@ -39,6 +42,9 @@ import { WellcomeComponent } from './components/wellcome/wellcome.component';
     MatButtonModule,
     MatToolbarModule,
     MatIconModule,
+    MatCardModule,
+    MatInputModule,
+    MatProgressSpinnerModule,
   ],
   providers: [
     AuthGuard,
