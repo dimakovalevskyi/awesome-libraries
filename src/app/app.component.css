@@ -1,0 +1,5 @@
+.app {
+  height: calc(100vh - 64px);
+  padding: 25px;
+  overflow-y: auto;
+}

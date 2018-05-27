@@ -1,6 +1,6 @@
 import { Book } from './book';
 
-export interface Library {
+export class Library {
   name: string;
   address: string;
   coordinates: any;
