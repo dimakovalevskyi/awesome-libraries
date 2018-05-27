@@ -12,9 +12,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     const testUser = {
       id: 1,
       username: 'admin',
-      password: 'admin',
-      firstName: 'Super',
-      lastName: 'Admin'
+      password: 'admin'
     };
 
     return of(null).pipe(mergeMap(() => {
