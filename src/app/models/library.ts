@@ -1,8 +1,12 @@
 import { Book } from './book';
 
 export class Library {
+  id: number;
   name: string;
   address: string;
-  coordinates: any;
+  coordinates: {
+    latitude: number,
+    longitude: number
+  };
   books: Array<Book>;
 }

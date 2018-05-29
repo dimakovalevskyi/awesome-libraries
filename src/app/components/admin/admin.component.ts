@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { LibraryService } from '../../services/library.service';
+import { Library } from '../../models/library';
 
 @Component({
   selector: 'app-admin',
@@ -6,10 +8,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./admin.component.scss']
 })
 export class AdminComponent implements OnInit {
+  librariesList: Array<Library> = [];
 
-  constructor() { }
+  constructor(
+    private libService: LibraryService
+  ) { }
 
   ngOnInit() {
+    this.libService.getAll().then(data => this.librariesList = data);
   }
 
 }

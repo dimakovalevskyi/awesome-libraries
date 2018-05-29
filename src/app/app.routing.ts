@@ -6,6 +6,7 @@ import { LoginComponent } from './components/login/login.component';
 import { ChatComponent } from './components/chat/chat.component';
 import { AdminComponent } from './components/admin/admin.component';
 import { WellcomeComponent } from './components/wellcome/wellcome.component';
+import { LibraryComponent } from './components/admin/library/library.component';
 
 const appRoutes: Routes = [
   {
@@ -19,6 +20,11 @@ const appRoutes: Routes = [
   {
     path: 'admin',
     component: AdminComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'admin/library/:id',
+    component: LibraryComponent,
     canActivate: [AuthGuard]
   },
   {

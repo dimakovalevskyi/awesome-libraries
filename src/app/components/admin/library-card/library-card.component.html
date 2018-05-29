@@ -1,0 +1,20 @@
+<mat-card class="library-card">
+  <mat-card-header>
+    <mat-card-title>{{ lib.name }}</mat-card-title>
+    <mat-card-subtitle>{{ lib.address }}</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+  </mat-card-content>
+  <mat-card-actions>
+
+    <button mat-icon-button (click)="viewDetails()" title="Редагувати інформацію">
+      <mat-icon aria-label="Редагувати інформацію">edit</mat-icon>
+    </button>
+    <a [routerLink]="['/admin/library/', lib.id]" mat-icon-button title="Перейти до керування книгами">
+      <mat-icon aria-label="Перейти до керування книгами">book</mat-icon>
+    </a>
+    <button mat-icon-button class="float-right" (click)="remove()" title="Видалити із бази" color="warn">
+      <mat-icon aria-label="Видалити із бази">delete</mat-icon>
+    </button>
+  </mat-card-actions>
+</mat-card>

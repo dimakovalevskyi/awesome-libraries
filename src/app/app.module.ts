@@ -4,6 +4,8 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 
+import { AgmCoreModule } from '@agm/core';
+
 import {
   MatButtonModule,
   MatToolbarModule,
@@ -24,6 +26,9 @@ import { JwtInterceptor } from './auth/jwt.interceptor';
 import { routing } from './app.routing';
 import { AdminComponent } from './components/admin/admin.component';
 import { WellcomeComponent } from './components/wellcome/wellcome.component';
+import { MapComponent } from './components/map/map.component';
+import { LibraryCardComponent } from './components/admin/library-card/library-card.component';
+import { LibraryComponent } from './components/admin/library/library.component';
 
 @NgModule({
   declarations: [
@@ -32,11 +37,17 @@ import { WellcomeComponent } from './components/wellcome/wellcome.component';
     LoginComponent,
     AdminComponent,
     WellcomeComponent,
+    MapComponent,
+    LibraryCardComponent,
+    LibraryComponent,
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     routing,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyCau6_koBHjV8it4a5F1AGj1OQjgojI1B8'
+    }),
     ReactiveFormsModule,
     BrowserAnimationsModule,
     MatButtonModule,
