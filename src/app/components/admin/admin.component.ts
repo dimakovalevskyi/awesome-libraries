@@ -14,6 +14,15 @@ export class AdminComponent implements OnInit {
     private libService: LibraryService
   ) { }
 
+  addLibrary() {
+    this.libService.add()
+      .then(data => this.librariesList = data ? data : this.librariesList);
+  }
+
+  itemRemoved(newLibraryList) {
+    this.librariesList = newLibraryList;
+  }
+
   ngOnInit() {
     this.libService.getAll().then(data => this.librariesList = data);
   }

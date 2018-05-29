@@ -1,3 +1,18 @@
-<p>
-  library-edit-dialog works!
-</p>
+<h2 mat-dialog-title *ngIf="addingMode">Додати нову бібліотеку</h2>
+<h2 mat-dialog-title *ngIf="!addingMode">Редагувати бібліотеку</h2>
+<mat-dialog-content>
+
+  <mat-form-field class="half-width">
+    <input matInput placeholder="Назва" [(ngModel)]="library.name">
+  </mat-form-field>
+  <mat-form-field class="half-width">
+    <input matInput placeholder="Адреса" [(ngModel)]="library.address">
+  </mat-form-field>
+
+  <app-map [coords]="library.coordinates" (mapClick)="cursorMoved($event)"></app-map>
+
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button color="warn" mat-dialog-close>Вихід</button>
+  <button mat-raised-button color="primary" [mat-dialog-close]="library">Зберегти</button>
+</mat-dialog-actions>

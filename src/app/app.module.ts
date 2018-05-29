@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 import { AgmCoreModule } from '@agm/core';
 
@@ -52,6 +52,7 @@ import { LoaderInterceptor } from './services/loader.interceptor';
   imports: [
     BrowserModule,
     HttpClientModule,
+    FormsModule,
     routing,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyCau6_koBHjV8it4a5F1AGj1OQjgojI1B8'

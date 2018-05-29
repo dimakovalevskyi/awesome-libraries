@@ -14,11 +14,8 @@ import { Library } from '../models/library';
 
 @Injectable()
 export class FakeBackendInterceptor implements HttpInterceptor {
-
-  constructor() { }
-
-  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const database: Array<Library> = [{
+  database: any = {
+    0: {
       id: 0,
       name: 'Бібліотека ім. Стіва Джобса',
       address: 'Хрещатик',
@@ -27,7 +24,45 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         longitude: 30.524227
       },
       books: []
-    }];
+    }
+  };
+
+  constructor() { }
+
+  databaseToArray() {
+    const result = [];
+
+    for (const library in this.database) {
+      if (this.database.hasOwnProperty(library)) {
+        result.push(this.database[library]);
+      }
+    }
+
+    return result;
+  }
+
+  addToDatabase(newLibrary) {
+    if (
+      typeof newLibrary !== 'object' ||
+      typeof newLibrary.id !== 'number' ||
+      typeof newLibrary.name !== 'string' ||
+      typeof newLibrary.address !== 'string' ||
+      typeof newLibrary.coordinates !== 'object' ||
+      typeof newLibrary.coordinates.latitude !== 'number' ||
+      typeof newLibrary.coordinates.longitude !== 'number' ||
+      typeof newLibrary.books !== 'object'
+    ) {
+      return false;
+    }
+    const keys = Object.keys(this.database);
+    newLibrary.id = keys[keys.length - 1] + 1;
+
+    this.database[newLibrary.id] = newLibrary;
+
+    return true;
+  }
+
+  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const testUser = {
       id: 1,
       username: 'admin',
@@ -40,32 +75,56 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         if (request.body.username === testUser.username && request.body.password === testUser.password) {
           return of(new HttpResponse({ status: 200, body: { token: 'fake-jwt-token' } }));
         } else {
-          return throwError('Username or password is incorrect');
+          return throwError({ message: 'Username or password is incorrect' });
         }
       }
+
       if (request.url.endsWith('/api/libraries') && request.method === 'GET') {
         if (request.params.has('id')) {
-          const result = database.filter(library => library.id.toString() === request.params.get('id'));
-          if (result.length) {
-            return of(new HttpResponse({ status: 200, body: {library: result[0]} }));
-          } else {
-            return of(new HttpErrorResponse({ status: 404 }));
+          if (!this.database[request.params.get('id')]) {
+            return throwError({ message: 'Not found' });
           }
+          return of(new HttpResponse({ status: 200, body: this.database[request.params.get('id')] }));
         }
-        return of(new HttpResponse({ status: 200, body: {libraries: database} }));
+        return of(new HttpResponse({ status: 200, body: this.databaseToArray() }));
+      }
+
+      if (request.url.endsWith('/api/libraries') && request.method === 'PATCH') {
+        if (request.headers.get('Authorization') !== 'Bearer fake-jwt-token') {
+          return throwError({ message: 'Unauthorized requqest blocked' });
+        }
+        if (!this.database[request.body.id]) {
+          return throwError({ message: 'Not found' });
+        }
+        this.database[request.body.id] = request.body;
+        return of(new HttpResponse({ status: 200, body: this.database[request.body.id] }));
       }
 
       if (request.url.endsWith('/api/libraries') && request.method === 'POST') {
-        if (request.headers.get('Authorization') === 'Bearer fake-jwt-token') {
-          // todo
-          return of(new HttpResponse({ status: 200, body: {} }));
-        } else {
-          return throwError('Unauthorized requqest blocked');
+        if (request.headers.get('Authorization') !== 'Bearer fake-jwt-token') {
+          return throwError({ message: 'Unauthorized requqest blocked' });
         }
+        if (!this.addToDatabase(request.body)) {
+          return throwError({ message: 'Bad request' });
+        }
+        return of(new HttpResponse({ status: 200, body: this.databaseToArray() }));
+      }
+
+      if (request.url.endsWith('/api/libraries') && request.method === 'DELETE') {
+        if (request.headers.get('Authorization') !== 'Bearer fake-jwt-token') {
+          return throwError({ message: 'Unauthorized requqest blocked' });
+        }
+        if (!request.params.has('id')) {
+          return throwError({ message: 'Bad request' });
+        }
+        if (!this.database[request.params.get('id')]) {
+          return throwError({ message: 'Not found' });
+        }
+        delete this.database[request.params.get('id')];
+        return of(new HttpResponse({ status: 200, body: this.databaseToArray() }));
       }
 
       return next.handle(request);
-
     }))
     .pipe(materialize())
     .pipe(delay(500))

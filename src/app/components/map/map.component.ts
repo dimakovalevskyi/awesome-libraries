@@ -1,4 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { LibraryCoordinates } from '../../models/library';
 
 @Component({
   selector: 'app-map',
@@ -6,10 +7,13 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./map.component.scss']
 })
 export class MapComponent implements OnInit {
-  @Input() lat = 50.450108;
-  @Input() lng = 30.524227;
+  @Input() coords = {
+    latitude: 50.450108,
+    longitude: 30.524227
+  };
   @Input() height = 300;
   @Input() zoom = 14;
+  @Output() mapClick = new EventEmitter<LibraryCoordinates>();
 
   styles = [
     {
@@ -198,6 +202,13 @@ export class MapComponent implements OnInit {
     }
   ];
   constructor() { }
+
+  mapClicked(event) {
+    this.mapClick.emit({
+      latitude: event.coords.lat,
+      longitude: event.coords.lng
+    });
+  }
 
   ngOnInit() {
   }

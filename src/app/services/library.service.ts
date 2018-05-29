@@ -18,7 +18,6 @@ export class LibraryService {
   getAll(): Promise<Array<Library>> {
     return this.http.get<any>('/api/libraries')
       .toPromise()
-      .then(data => data.libraries)
       .catch(error => this.snackBar.open(error.message, 'Закрити'));
   }
 
@@ -28,24 +27,47 @@ export class LibraryService {
         params: new HttpParams().set('id', id.toString())
       })
       .toPromise()
-      .then(data => data.library)
       .catch(error => this.snackBar.open(error.message, 'Закрити'));
   }
 
   edit(id: number|string) {
-    this.get(id)
+    return this.get(id)
       .then(library => this.dialog.open(LibraryEditDialogComponent, {
         width: '550px',
         data: library
       }).afterClosed().toPromise())
       .then(result => {
         if (result) {
-          // update
+          return this.http
+            .patch<any>('/api/libraries', result)
+            .toPromise()
+            .catch(error => this.snackBar.open(error.message, 'Закрити'));
         }
+        return null;
+    });
+  }
+
+  add() {
+    return this.dialog.open(LibraryEditDialogComponent, {
+      width: '550px',
+      data: null
+    }).afterClosed().toPromise()
+    .then(result => {
+      if (result) {
+        return this.http
+          .post<any>('/api/libraries', result)
+          .toPromise()
+          .catch(error => this.snackBar.open(error.message, 'Закрити'));
+      }
     });
   }
 
   remove(id: number|string) {
-
+    return this.http
+      .delete<any>('/api/libraries', {
+        params: new HttpParams().set('id', id.toString())
+      })
+      .toPromise()
+      .catch(error => this.snackBar.open(error.message, 'Закрити'));
   }
 }

@@ -4,9 +4,11 @@ export class Library {
   id: number;
   name: string;
   address: string;
-  coordinates: {
-    latitude: number,
-    longitude: number
-  };
+  coordinates: LibraryCoordinates;
   books: Array<Book>;
+}
+
+export class LibraryCoordinates {
+  latitude: number;
+  longitude: number;
 }

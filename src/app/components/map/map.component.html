@@ -1,3 +1,9 @@
-<agm-map [latitude]="lat" [longitude]="lng" [styles]="styles" [ngStyle]="{'height.px': height}" [zoom]="zoom">
-  <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+<agm-map
+  [latitude]="coords.latitude"
+  [longitude]="coords.longitude"
+  [styles]="styles"
+  [ngStyle]="{'height.px': height}"
+  [zoom]="zoom"
+  (mapClick)="mapClicked($event)">
+    <agm-marker [latitude]="coords.latitude" [longitude]="coords.longitude" [title]="Hello"></agm-marker>
 </agm-map>

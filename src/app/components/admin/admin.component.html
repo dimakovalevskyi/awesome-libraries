@@ -1,1 +1,5 @@
-<app-library-card *ngFor="let library of librariesList" [lib]="library"></app-library-card>
+<app-library-card *ngFor="let library of librariesList" [lib]="library" (itemRemoved)="itemRemoved($event)"></app-library-card>
+
+<button class="add-button" mat-fab color="primary" title="Додати бібліотеку" (click)="addLibrary()">
+  <mat-icon aria-label="Додати бібліотеку">library_add</mat-icon>
+</button>
