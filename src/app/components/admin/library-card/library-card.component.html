@@ -7,7 +7,7 @@
   </mat-card-content>
   <mat-card-actions>
 
-    <button mat-icon-button (click)="viewDetails()" title="Редагувати інформацію">
+    <button mat-icon-button (click)="edit()" title="Редагувати інформацію">
       <mat-icon aria-label="Редагувати інформацію">edit</mat-icon>
     </button>
     <a [routerLink]="['/admin/library/', lib.id]" mat-icon-button title="Перейти до керування книгами">

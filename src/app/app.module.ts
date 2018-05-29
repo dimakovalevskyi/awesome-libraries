@@ -13,6 +13,10 @@ import {
   MatCardModule,
   MatInputModule,
   MatProgressSpinnerModule,
+  MatDividerModule,
+  MatSnackBarModule,
+  MatDialogModule,
+  MatProgressBarModule,
 } from '@angular/material';
 
 import { AppComponent } from './app.component';
@@ -29,6 +33,9 @@ import { WellcomeComponent } from './components/wellcome/wellcome.component';
 import { MapComponent } from './components/map/map.component';
 import { LibraryCardComponent } from './components/admin/library-card/library-card.component';
 import { LibraryComponent } from './components/admin/library/library.component';
+import { LibraryEditDialogComponent } from './components/admin/library-edit-dialog/library-edit-dialog.component';
+import { LoaderService } from './services/loader.service';
+import { LoaderInterceptor } from './services/loader.interceptor';
 
 @NgModule({
   declarations: [
@@ -40,6 +47,7 @@ import { LibraryComponent } from './components/admin/library/library.component';
     MapComponent,
     LibraryCardComponent,
     LibraryComponent,
+    LibraryEditDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -56,17 +64,30 @@ import { LibraryComponent } from './components/admin/library/library.component';
     MatCardModule,
     MatInputModule,
     MatProgressSpinnerModule,
+    MatDividerModule,
+    MatSnackBarModule,
+    MatDialogModule,
+    MatProgressBarModule,
   ],
   providers: [
     AuthGuard,
     AuthService,
+    LoaderService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: JwtInterceptor,
       multi: true
     },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: LoaderInterceptor,
+      multi: true
+    },
     fakeBackendProvider
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [
+    LibraryEditDialogComponent,
+  ]
 })
 export class AppModule { }

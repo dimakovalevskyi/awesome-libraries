@@ -8,3 +8,9 @@
   max-width: 1200px;
   margin: 0 auto;
 }
+.preloader {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 64px;
+}
