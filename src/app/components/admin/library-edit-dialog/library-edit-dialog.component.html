@@ -14,5 +14,5 @@
 </mat-dialog-content>
 <mat-dialog-actions>
   <button mat-button color="warn" mat-dialog-close>Вихід</button>
-  <button mat-raised-button color="primary" [mat-dialog-close]="library">Зберегти</button>
+  <button mat-raised-button color="primary" [mat-dialog-close]="library" [disabled]="!library.name.length || !library.address.length">Зберегти</button>
 </mat-dialog-actions>

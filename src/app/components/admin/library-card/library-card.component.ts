@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Library } from '../../../models/library';
 import { LibraryService } from '../../../services/library.service';
+import { ConfirmationService } from '../../../services/confirmation.service';
 
 @Component({
   selector: 'app-library-card',
@@ -12,7 +13,8 @@ export class LibraryCardComponent implements OnInit {
   @Output() itemRemoved = new EventEmitter<Array<Library>>();
 
   constructor(
-    private libService: LibraryService
+    private libService: LibraryService,
+    private confirmation: ConfirmationService
   ) { }
 
   edit() {
@@ -21,8 +23,10 @@ export class LibraryCardComponent implements OnInit {
   }
 
   remove() {
-    this.libService.remove(this.lib.id)
-      .then(data => this.itemRemoved.emit(data));
+    this.confirmation.open('Ви впевнені що хочете видалити бібліотеку?')
+      .then(() => this.libService.remove(this.lib.id))
+      .then(data => this.itemRemoved.emit(data))
+      .catch(() => {});
   }
 
   ngOnInit() {

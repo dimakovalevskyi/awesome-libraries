@@ -36,6 +36,7 @@ import { LibraryComponent } from './components/admin/library/library.component';
 import { LibraryEditDialogComponent } from './components/admin/library-edit-dialog/library-edit-dialog.component';
 import { LoaderService } from './services/loader.service';
 import { LoaderInterceptor } from './services/loader.interceptor';
+import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { LoaderInterceptor } from './services/loader.interceptor';
     LibraryCardComponent,
     LibraryComponent,
     LibraryEditDialogComponent,
+    ConfirmationDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -89,6 +91,7 @@ import { LoaderInterceptor } from './services/loader.interceptor';
   bootstrap: [AppComponent],
   entryComponents: [
     LibraryEditDialogComponent,
+    ConfirmationDialogComponent,
   ]
 })
 export class AppModule { }
