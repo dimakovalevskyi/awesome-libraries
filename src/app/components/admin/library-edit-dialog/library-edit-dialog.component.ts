@@ -20,7 +20,7 @@ export class LibraryEditDialogComponent implements OnInit {
 
   ngOnInit() {
     if (this.library) {
-      this.library = {...this.library};
+      this.library = Object.create(this.library);
       this.addingMode = false;
     } else {
       this.library = {

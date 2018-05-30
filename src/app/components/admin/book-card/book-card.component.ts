@@ -15,6 +15,7 @@ export class BookCardComponent implements OnInit {
   @Input() library: Library;
   @Output() removeBook = new EventEmitter<Book>();
   @Output() saveChanges = new EventEmitter();
+  countOfBlocked: number;
 
   constructor(
     private libService: LibraryService,
@@ -40,6 +41,7 @@ export class BookCardComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.countOfBlocked = this.bookService.getBlockedCopies(this.book);
   }
 
 }

@@ -1,4 +1,7 @@
 .library-card {
-  width: 350px;
+  width: 100%;
+}
+:host {
+  max-width: calc(33.3% - 32px);
   margin: 16px;
 }

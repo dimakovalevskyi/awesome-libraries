@@ -30,7 +30,8 @@ export class BookEditDialogComponent implements OnInit {
 
   ngOnInit() {
     if (this.book) {
-      this.book = {...this.book};
+      this.book = Object.create(this.book);
+      this.book.copies = Object.create(this.book.copies);
       this.countOfBlocked = this.getBlockedCopies(this.book);
       this.addingMode = false;
     } else {

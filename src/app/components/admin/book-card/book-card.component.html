@@ -7,7 +7,9 @@
   <img *ngIf="book.coverUrl" mat-card-image src="{{ book.coverUrl }}" alt="{{ book.name + ' обкладинка' }}">
 
   <mat-card-content>
-    Extra info
+    <h4>ISBN: {{ book.isbn }}</h4>
+    <h4>Загальна кількість примірників: {{ book.copies.length }}</h4>
+    <h4>Кількість примірників на руках: {{ countOfBlocked }}</h4>
   </mat-card-content>
 
   <mat-card-actions>
