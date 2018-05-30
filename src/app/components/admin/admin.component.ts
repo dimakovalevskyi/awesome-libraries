@@ -14,6 +14,16 @@ export class AdminComponent implements OnInit {
     private libService: LibraryService
   ) { }
 
+
+  import() {
+    this.libService.import()
+      .then(data => this.librariesList = data ? data : this.librariesList);
+  }
+
+  export() {
+    this.libService.export();
+  }
+
   addLibrary() {
     this.libService.add()
       .then(data => this.librariesList = data ? data : this.librariesList);

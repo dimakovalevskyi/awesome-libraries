@@ -4,6 +4,14 @@
   <p>Скористайтеся функцією додавання нової бібліотеки</p>
 </div>
 
+
+
+<button class="import-button" mat-mini-fab color="primary" (click)="import()" title="Імпортувати данні">
+  <mat-icon aria-label="Імпортувати данні">open_in_browser</mat-icon>
+</button>
+<button class="export-button" mat-mini-fab color="primary" (click)="export()" title="Експортувати данні">
+  <mat-icon aria-label="Експортувати данні">file_download</mat-icon>
+</button>
 <button class="add-button" mat-fab color="primary" title="Додати бібліотеку" (click)="addLibrary()">
   <mat-icon aria-label="Додати бібліотеку">library_add</mat-icon>
 </button>

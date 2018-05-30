@@ -93,6 +93,21 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         return of(new HttpResponse({ status: 200, body: this.databaseToArray() }));
       }
 
+      if (request.url.endsWith('/api/export') && request.method === 'GET') {
+        if (request.headers.get('Authorization') !== 'Bearer fake-jwt-token') {
+          return throwError({ message: 'Unauthorized requqest blocked' });
+        }
+        return of(new HttpResponse({ status: 200, body: this.database }));
+      }
+
+      if (request.url.endsWith('/api/import') && request.method === 'POST') {
+        if (request.headers.get('Authorization') !== 'Bearer fake-jwt-token') {
+          return throwError({ message: 'Unauthorized requqest blocked' });
+        }
+        this.database = request.body;
+        return of(new HttpResponse({ status: 200, body: this.databaseToArray() }));
+      }
+
       if (request.url.endsWith('/api/libraries') && request.method === 'PATCH') {
         if (request.headers.get('Authorization') !== 'Bearer fake-jwt-token') {
           return throwError({ message: 'Unauthorized requqest blocked' });

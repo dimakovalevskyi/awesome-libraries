@@ -39,6 +39,7 @@ import { LoaderInterceptor } from './services/loader.interceptor';
 import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
 import { BookCardComponent } from './components/admin/book-card/book-card.component';
 import { BookEditDialogComponent } from './components/admin/book-edit-dialog/book-edit-dialog.component';
+import { ImportComponent } from './components/import/import.component';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import { BookEditDialogComponent } from './components/admin/book-edit-dialog/boo
     ConfirmationDialogComponent,
     BookCardComponent,
     BookEditDialogComponent,
+    ImportComponent,
   ],
   imports: [
     BrowserModule,
@@ -97,6 +99,7 @@ import { BookEditDialogComponent } from './components/admin/book-edit-dialog/boo
     LibraryEditDialogComponent,
     ConfirmationDialogComponent,
     BookEditDialogComponent,
+    ImportComponent,
   ]
 })
 export class AppModule { }

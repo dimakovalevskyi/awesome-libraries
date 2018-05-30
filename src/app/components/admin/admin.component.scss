@@ -1,7 +1,17 @@
-.add-button {
+.export-button, .import-button, .add-button {
   position: absolute;
+}
+.import-button {
+  bottom: 165px;
+  right: 68px;
+}
+.export-button {
+  bottom: 110px;
+  right: 68px;
+}
+.add-button {
   right: 60px;
-  bottom: 60px;
+  bottom: 40px;
 }
 :host {
   height: 100%;
