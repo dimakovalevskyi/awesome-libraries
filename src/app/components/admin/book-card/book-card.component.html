@@ -1,0 +1,21 @@
+<mat-card class="book-card">
+  <mat-card-header>
+    <mat-card-title>{{ book.name }}</mat-card-title>
+    <mat-card-subtitle>{{ book.author + ' | ' + book.year + 'р.' }}</mat-card-subtitle>
+  </mat-card-header>
+
+  <img *ngIf="book.coverUrl" mat-card-image src="{{ book.coverUrl }}" alt="{{ book.name + ' обкладинка' }}">
+
+  <mat-card-content>
+    Extra info
+  </mat-card-content>
+
+  <mat-card-actions>
+    <button mat-icon-button (click)="edit()" title="Редагувати інформацію">
+      <mat-icon aria-label="Редагувати інформацію">edit</mat-icon>
+    </button>
+    <button mat-icon-button class="float-right" (click)="remove()" title="Видалити із бази" color="warn">
+      <mat-icon aria-label="Видалити із бази">delete</mat-icon>
+    </button>
+  </mat-card-actions>
+</mat-card>

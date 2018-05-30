@@ -38,13 +38,17 @@ export class LibraryService {
       }).afterClosed().toPromise())
       .then(result => {
         if (result) {
-          return this.http
-            .patch<any>('/api/libraries', result)
-            .toPromise()
-            .catch(error => this.snackBar.open(error.message, 'Закрити'));
+          return this.update(result);
         }
         return null;
     });
+  }
+
+  update(library) {
+    return this.http
+      .patch<any>('/api/libraries', library)
+      .toPromise()
+      .catch(error => this.snackBar.open(error.message, 'Закрити'));
   }
 
   add() {

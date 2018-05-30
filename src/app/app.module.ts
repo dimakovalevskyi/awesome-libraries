@@ -37,6 +37,8 @@ import { LibraryEditDialogComponent } from './components/admin/library-edit-dial
 import { LoaderService } from './services/loader.service';
 import { LoaderInterceptor } from './services/loader.interceptor';
 import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
+import { BookCardComponent } from './components/admin/book-card/book-card.component';
+import { BookEditDialogComponent } from './components/admin/book-edit-dialog/book-edit-dialog.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +52,8 @@ import { ConfirmationDialogComponent } from './components/confirmation-dialog/co
     LibraryComponent,
     LibraryEditDialogComponent,
     ConfirmationDialogComponent,
+    BookCardComponent,
+    BookEditDialogComponent,
   ],
   imports: [
     BrowserModule,

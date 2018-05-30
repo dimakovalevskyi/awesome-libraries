@@ -4,9 +4,7 @@ export class Book {
   year: number;
   isbn: string;
   coverUrl: string;
-  getStatus: Function;
   copies: Array<{
-    getStatus: Function;
     returnDate: number;
   }>;
 }

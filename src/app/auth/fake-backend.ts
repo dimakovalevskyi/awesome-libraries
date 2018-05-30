@@ -23,7 +23,14 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         latitude: 50.450108,
         longitude: 30.524227
       },
-      books: []
+      books: [{
+        name: 'Гаррі Поттер та філософський камінь',
+        author: 'Джоан Роулінг',
+        year: 2000,
+        isbn: 'GDS1251256136',
+        coverUrl: 'https://vignette.wikia.nocookie.net/harrypotter/images/5/5d/VF3rqkkXZsk.jpg/revision/latest/top-crop/width/240/height/240?cb=20140331143558&path-prefix=ru',
+        copies: []
+      }]
     }
   };
 
@@ -41,17 +48,12 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     return result;
   }
 
+  isValidLibrary(newLibrary) {
+    return true;
+  }
+
   addToDatabase(newLibrary) {
-    if (
-      typeof newLibrary !== 'object' ||
-      typeof newLibrary.id !== 'number' ||
-      typeof newLibrary.name !== 'string' ||
-      typeof newLibrary.address !== 'string' ||
-      typeof newLibrary.coordinates !== 'object' ||
-      typeof newLibrary.coordinates.latitude !== 'number' ||
-      typeof newLibrary.coordinates.longitude !== 'number' ||
-      typeof newLibrary.books !== 'object'
-    ) {
+    if (!this.isValidLibrary(newLibrary)) {
       return false;
     }
     const keys = Object.keys(this.database);
@@ -95,6 +97,9 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         }
         if (!this.database[request.body.id]) {
           return throwError({ message: 'Not found' });
+        }
+        if (!this.isValidLibrary(request.body)) {
+          return throwError({ message: 'Bad request' });
         }
         this.database[request.body.id] = request.body;
         return of(new HttpResponse({ status: 200, body: this.database[request.body.id] }));

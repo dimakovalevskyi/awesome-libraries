@@ -15,6 +15,12 @@ export class LibraryComponent implements OnInit {
     private libService: LibraryService
   ) { }
 
+  removeBook(book) {
+    this.library.books.splice(this.library.books.indexOf(book), 1);
+    this.libService.update(this.library)
+      .then(library => this.library = library);
+  }
+
   ngOnInit() {
     this.route.params.subscribe(params => {
       this.libService.get(params.id)
