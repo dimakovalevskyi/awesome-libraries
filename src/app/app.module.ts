@@ -96,6 +96,7 @@ import { BookEditDialogComponent } from './components/admin/book-edit-dialog/boo
   entryComponents: [
     LibraryEditDialogComponent,
     ConfirmationDialogComponent,
+    BookEditDialogComponent,
   ]
 })
 export class AppModule { }

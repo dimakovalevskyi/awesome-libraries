@@ -1,3 +1,36 @@
-<p>
-  book-edit-dialog works!
-</p>
+<h2 mat-dialog-title *ngIf="addingMode">Додати нову книгу</h2>
+<h2 mat-dialog-title *ngIf="!addingMode">Редагувати книгу</h2>
+<mat-dialog-content>
+
+  <mat-form-field class="half-width">
+    <input matInput placeholder="Назва" [(ngModel)]="book.name">
+  </mat-form-field>
+  <mat-form-field class="half-width">
+    <input matInput placeholder="Автор" [(ngModel)]="book.author">
+  </mat-form-field>
+  <mat-form-field class="half-width">
+    <input matInput placeholder="ISBN" [(ngModel)]="book.isbn">
+  </mat-form-field>
+  <mat-form-field class="half-width">
+    <input type="number" matInput placeholder="Рік" [(ngModel)]="book.year" min="" max="3000">
+  </mat-form-field>
+  <mat-form-field class="full-width">
+    <input type="url" matInput placeholder="Посилання на обкладинку" [(ngModel)]="book.coverUrl">
+  </mat-form-field>
+  <h4>Кількість примірників</h4>
+  <div class="half-width">
+    <button mat-icon-button (click)="dec()" title="Зменшити" [disabled]="countOfBlocked === book.copies.length">
+      <mat-icon aria-label="Зменшити">remove</mat-icon>
+    </button>
+    {{ book.copies.length }}
+    <button mat-icon-button class="float-right" (click)="inc()" title="Збільшити">
+      <mat-icon aria-label="Збільшити">add</mat-icon>
+    </button>
+  </div>
+
+
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button color="warn" mat-dialog-close>Вихід</button>
+  <button mat-raised-button color="primary" [mat-dialog-close]="book" [disabled]="!book.name.length || !book.author.length || !book.isbn.length">Зберегти</button>
+</mat-dialog-actions>

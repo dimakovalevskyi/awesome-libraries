@@ -4,7 +4,7 @@
   <mat-divider></mat-divider>
 </div>
 
-<div *ngIf="library"><app-book-card *ngFor="let book of library.books" [book]="book" (removeBook)="removeBook($event)"></app-book-card></div>
+<div *ngIf="library"><app-book-card *ngFor="let book of library.books" [book]="book" [library]="library" (removeBook)="removeBook($event)" (saveChanges)="saveChanges()"></app-book-card></div>
 
 <div class="placeholder" *ngIf="library && library.books && !library.books.length">
   <p>Cписок книг пустий</p>
