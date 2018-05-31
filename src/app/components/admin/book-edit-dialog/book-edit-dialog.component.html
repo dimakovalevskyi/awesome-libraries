@@ -17,7 +17,7 @@
   <mat-form-field class="full-width">
     <input type="url" matInput placeholder="Посилання на обкладинку" [(ngModel)]="book.coverUrl">
   </mat-form-field>
-  <h4>Кількість примірників</h4>
+  <h4>Примірники</h4>
   <div class="half-width">
     <button mat-icon-button (click)="dec()" title="Зменшити" [disabled]="countOfBlocked === book.copies.length">
       <mat-icon aria-label="Зменшити">remove</mat-icon>
@@ -26,6 +26,17 @@
     <button mat-icon-button class="float-right" (click)="inc()" title="Збільшити">
       <mat-icon aria-label="Збільшити">add</mat-icon>
     </button>
+  </div>
+  <div class="copies">
+    <div *ngFor="let copy of book.copies; let i = index" class="copy">
+      <span>Примірник {{ i + 1 }}</span>
+      <div class="flex-spacer"></div>
+      <span>{{ (copy.returnDate <= now) ? 'На полиці (Доступна)' : 'На руках (Буде доступна ' + getFormattedDate(copy.returnDate) + ')'}}</span>
+      <button mat-icon-button *ngIf="copy.returnDate > now" (click)="return(copy)" title="Книга повернена">
+        <mat-icon aria-label="Книга повернена">check</mat-icon>
+      </button>
+    </div>
+
   </div>
 
 

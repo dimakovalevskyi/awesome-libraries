@@ -10,6 +10,7 @@ import { Book } from '../../../models/book';
 export class BookEditDialogComponent implements OnInit {
   addingMode = true;
   countOfBlocked = 0;
+  now = new Date().getTime();
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public book: Book|null
@@ -17,7 +18,7 @@ export class BookEditDialogComponent implements OnInit {
 
   inc() {
     this.book.copies.push({
-      returnDate: new Date().getTime()
+      returnDate: this.now
     });
   }
   dec() {
@@ -26,6 +27,15 @@ export class BookEditDialogComponent implements OnInit {
 
   getBlockedCopies(book: Book) {
     return book.copies.filter(element => element.returnDate > new Date().getTime()).length;
+  }
+
+  getFormattedDate(date) {
+    date = new Date(date);
+    return `${date.getHours()}:${date.getMinutes()} ${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`;
+  }
+
+  return(copy) {
+    copy.returnDate = this.now;
   }
 
   ngOnInit() {

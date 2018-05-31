@@ -1,0 +1,12 @@
+.copies {
+  height: 250px;
+  overflow-y: scroll;
+}
+.copy {
+  display: flex;
+  margin-bottom: 15px;
+  align-items: center;
+  span {
+    display: inline-flex;
+  }
+}

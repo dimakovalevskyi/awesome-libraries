@@ -11,32 +11,18 @@ import {
 import { Observable, of, throwError } from 'rxjs';
 import { delay, mergeMap, materialize, dematerialize } from 'rxjs/operators';
 import { Library } from '../models/library';
+import { CATCH_STACK_VAR } from '@angular/compiler/src/output/abstract_emitter';
 
 @Injectable()
 export class FakeBackendInterceptor implements HttpInterceptor {
-  database: any = {
-    0: {
-      id: 0,
-      name: 'Бібліотека ім. Стіва Джобса',
-      address: 'Хрещатик',
-      coordinates: {
-        latitude: 50.450108,
-        longitude: 30.524227
-      },
-      books: [{
-        name: 'Гаррі Поттер та філософський камінь',
-        author: 'Джоан Роулінг',
-        year: 2000,
-        isbn: 'GDS1251256136',
-        coverUrl: 'https://vignette.wikia.nocookie.net/harrypotter/images/5/5d/VF3rqkkXZsk.jpg/revision/latest/top-crop/width/240/height/240?cb=20140331143558&path-prefix=ru',
-        copies: [{
-          returnDate: new Date().getTime()
-        }]
-      }]
-    }
-  };
+  database: any;
 
-  constructor() { }
+  constructor() {
+    this.database = this.readFromLocalStorage();
+    if (!this.database) {
+      this.database = {};
+    }
+   }
 
   databaseToArray() {
     const result = [];
@@ -48,6 +34,17 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     }
 
     return result;
+  }
+
+  saveToLocalStorage() {
+    const json = JSON.stringify(this.database);
+    localStorage.setItem('awesome_libraries_data', json);
+  }
+  readFromLocalStorage() {
+    const json = localStorage.getItem('awesome_libraries_data');
+    try {
+      return JSON.parse(json);
+    } catch (ignored) {}
   }
 
   isValidLibrary(newLibrary) {
@@ -105,6 +102,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
           return throwError({ message: 'Unauthorized requqest blocked' });
         }
         this.database = request.body;
+        this.saveToLocalStorage();
         return of(new HttpResponse({ status: 200, body: this.databaseToArray() }));
       }
 
@@ -119,6 +117,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
           return throwError({ message: 'Bad request' });
         }
         this.database[request.body.id] = request.body;
+        this.saveToLocalStorage();
         return of(new HttpResponse({ status: 200, body: this.database[request.body.id] }));
       }
 
@@ -129,6 +128,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         if (!this.addToDatabase(request.body)) {
           return throwError({ message: 'Bad request' });
         }
+        this.saveToLocalStorage();
         return of(new HttpResponse({ status: 200, body: this.databaseToArray() }));
       }
 
@@ -143,6 +143,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
           return throwError({ message: 'Not found' });
         }
         delete this.database[request.params.get('id')];
+        this.saveToLocalStorage();
         return of(new HttpResponse({ status: 200, body: this.databaseToArray() }));
       }
 

@@ -40,13 +40,6 @@ export class BookCardComponent implements OnInit {
       .catch(() => {});
   }
 
-  return() {
-    const index = this.library.books.indexOf(this.book);
-    this.library.books[index].copies.find(copy => copy.returnDate > new Date().getTime()).returnDate = new Date().getTime();
-    this.saveChanges.emit();
-    this.countOfBlocked = this.bookService.getBlockedCopies(this.book);
-  }
-
   ngOnInit() {
     this.countOfBlocked = this.bookService.getBlockedCopies(this.book);
   }
