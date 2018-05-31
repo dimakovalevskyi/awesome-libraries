@@ -18,11 +18,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
   database: any;
 
   constructor() {
-    this.database = this.readFromLocalStorage();
-    if (!this.database) {
-      this.database = {};
+    this.readFromLocalStorage();
     }
-   }
 
   databaseToArray() {
     const result = [];
@@ -43,8 +40,12 @@ export class FakeBackendInterceptor implements HttpInterceptor {
   readFromLocalStorage() {
     const json = localStorage.getItem('awesome_libraries_data');
     try {
-      return JSON.parse(json);
+      this.database = JSON.parse(json);
     } catch (ignored) {}
+
+    if (!this.database) {
+      this.database = {};
+    }
   }
 
   isValidLibrary(newLibrary) {
@@ -56,7 +57,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       return false;
     }
     const keys = Object.keys(this.database);
-    newLibrary.id = keys[keys.length - 1] + 1;
+    newLibrary.id = parseInt(keys[keys.length - 1], 10) + 1;
 
     this.database[newLibrary.id] = newLibrary;
 

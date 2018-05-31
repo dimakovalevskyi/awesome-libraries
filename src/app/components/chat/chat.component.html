@@ -1,3 +1,13 @@
-<p>
-  chat works!
-</p>
+<div class="chat-wrapper">
+  <div class="message message-author_{{ message.author }} message-type_{{ message.type }}" *ngFor="let message of chat">
+    <p *ngIf="message.type === 'text'" class="message-text"> {{ message.content }}</p>
+  </div>
+</div>
+<div class="chat-footer">
+  <mat-form-field class="message-input">
+    <input matInput placeholder="Повідомлення" [(ngModel)]="currentMessage" (keyup.enter)="send()">
+  </mat-form-field>
+  <button mat-icon-button (click)="send()" title="Надіслати" color="primary">
+    <mat-icon aria-label="Надіслати">send</mat-icon>
+  </button>
+</div>

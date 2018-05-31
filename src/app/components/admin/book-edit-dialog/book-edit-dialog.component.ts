@@ -41,7 +41,7 @@ export class BookEditDialogComponent implements OnInit {
   ngOnInit() {
     if (this.book) {
       this.book = Object.create(this.book);
-      this.book.copies = Object.create(this.book.copies);
+      this.book.copies = this.book.copies.slice();
       this.countOfBlocked = this.getBlockedCopies(this.book);
       this.addingMode = false;
     } else {
@@ -52,7 +52,7 @@ export class BookEditDialogComponent implements OnInit {
         isbn: '',
         year: 0,
         copies: [{
-          returnDate: new Date().getTime()
+          returnDate: this.now
         }]
       };
     }

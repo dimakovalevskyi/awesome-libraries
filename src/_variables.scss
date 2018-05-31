@@ -1,0 +1,6 @@
+// Import material theming functions
+@import '~@angular/material/theming';
+
+$pink: mat-color(mat-palette($mat-pink));
+$grey: mat-color(mat-palette($mat-grey));
+$blue: mat-color(mat-palette($mat-light-blue));
