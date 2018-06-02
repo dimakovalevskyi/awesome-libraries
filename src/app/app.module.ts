@@ -100,6 +100,7 @@ import { ImportComponent } from './components/import/import.component';
     ConfirmationDialogComponent,
     BookEditDialogComponent,
     ImportComponent,
+    MapComponent,
   ]
 })
 export class AppModule { }

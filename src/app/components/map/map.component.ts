@@ -1,5 +1,6 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { LibraryCoordinates } from '../../models/library';
+import { Component, OnInit, Input, Output, EventEmitter, Inject } from '@angular/core';
+import { LibraryCoordinates, Library } from '../../models/library';
+import { MAT_DIALOG_DATA } from '@angular/material';
 
 @Component({
   selector: 'app-map',
@@ -201,7 +202,9 @@ export class MapComponent implements OnInit {
       ]
     }
   ];
-  constructor() { }
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data
+  ) { }
 
   mapClicked(event) {
     this.mapClick.emit({
@@ -211,6 +214,11 @@ export class MapComponent implements OnInit {
   }
 
   ngOnInit() {
+    // if this inited, map in dialog mode
+    if (this.data && this.data.coords && this.data.height) {
+      this.coords = this.data.coords;
+      this.height = this.data.height;
+    }
   }
 
 }

@@ -12,6 +12,7 @@ import { Observable, of, throwError } from 'rxjs';
 import { delay, mergeMap, materialize, dematerialize } from 'rxjs/operators';
 import { Library } from '../models/library';
 import { CATCH_STACK_VAR } from '@angular/compiler/src/output/abstract_emitter';
+import { Book } from '../models/book';
 
 @Injectable()
 export class FakeBackendInterceptor implements HttpInterceptor {
@@ -62,6 +63,36 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     this.database[newLibrary.id] = newLibrary;
 
     return true;
+  }
+
+  searchInDatabase(query: string) {
+    const baseAsArray = this.databaseToArray();
+    const allResult = [];
+
+    function isBookMatch(book: Book) {
+      if (book.name.toLowerCase().includes(query.toLowerCase())) {
+        return true;
+      }
+      if (book.author.toLowerCase().includes(query.toLowerCase())) {
+        return true;
+      }
+      if (book.isbn.toLowerCase().includes(query.toLowerCase())) {
+        return true;
+      }
+      return false;
+    }
+    function searchInLibrary(library: Library) {
+      library.books
+        .filter(isBookMatch)
+        .forEach(result => allResult.push({
+          library: library,
+          book: result
+        }));
+    }
+
+    baseAsArray.forEach(searchInLibrary);
+
+    return allResult;
   }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -146,6 +177,44 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         delete this.database[request.params.get('id')];
         this.saveToLocalStorage();
         return of(new HttpResponse({ status: 200, body: this.databaseToArray() }));
+      }
+
+      if (request.url.endsWith('/api/search') && request.method === 'GET') {
+        if (!request.params.has('query')) {
+          return throwError({ message: 'Bad request' });
+        }
+        if (request.params.get('query').length < 3) {
+          return throwError({ message: 'Вибач, друже, але мінімальна довжина запиту 3 символи.' });
+        }
+        const response = this.searchInDatabase(request.params.get('query'));
+        if (!response.length) {
+          return throwError({ message: 'Нажаль, мені не вийшло нічого знайти за твоїм запитом. Спробуй змінити текст запиту.' });
+        }
+        return of(new HttpResponse({ status: 200, body: response }));
+      }
+
+      if (request.url.endsWith('/api/take') && request.method === 'POST') {
+        if (!this.database[request.body.library.id]) {
+          return throwError({ message: 'Not found' });
+        }
+        const variant = request.body;
+        const index = variant.library.books.indexOf(variant.book);
+        const now = new Date().getTime();
+        variant.library.books[index].copies.find(copy => copy.returnDate <= new Date().getTime()).returnDate = now + 300000;
+        this.database[variant.library.id] = variant.library;
+        this.saveToLocalStorage();
+        return of(new HttpResponse({ status: 200, body: JSON.stringify({
+          library: {
+            name: variant.library.name,
+            address: variant.library.address
+          },
+          book: {
+            name: variant.book.name,
+            author: variant.book.author,
+            year: variant.book.year,
+            isbn: variant.book.isbn
+          }
+        }) }));
       }
 
       return next.handle(request);

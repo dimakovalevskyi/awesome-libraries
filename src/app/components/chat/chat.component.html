@@ -1,13 +1,52 @@
 <div class="chat-wrapper">
   <div class="message message-author_{{ message.author }} message-type_{{ message.type }}" *ngFor="let message of chat">
     <p *ngIf="message.type === 'text'" class="message-text"> {{ message.content }}</p>
+    <div *ngIf="message.type === 'variants'" class="variants">
+      <mat-card *ngFor="let variant of message.content" class="variant-card">
+        <mat-card-header>
+          <mat-card-title>{{ variant.book.name }}</mat-card-title>
+          <mat-card-subtitle>{{ variant.book.author + ' | ' + variant.book.year + 'р.' }}</mat-card-subtitle>
+        </mat-card-header>
+
+        <img *ngIf="variant.book.coverUrl" mat-card-image src="{{ variant.book.coverUrl }}" alt="{{ variant.book.name + ' обкладинка' }}">
+
+        <mat-card-content>
+          <span>ISBN: {{ variant.book.isbn }}</span>
+          <mat-divider></mat-divider>
+          <h4 *ngIf="isBookAvailable(variant.book)">Доступна зараз в біблотеці:</h4>
+          <h4 *ngIf="!isBookAvailable(variant.book)">Буде доступна {{ getAvailableDate(variant.book) }} в біблотеці:</h4>
+          <div class="library-info">
+            <span class="library-name">{{ variant.library.name }}</span>
+            <span class="library-address">{{ variant.library.address }}</span>
+          </div>
+
+          <mat-divider></mat-divider>
+        </mat-card-content>
+
+        <mat-card-actions>
+          <button mat-icon-button (click)="select(variant)" title="Обрати" [disabled]="!isBookAvailable(variant.book)">
+            <mat-icon aria-label="Обрати">check</mat-icon>
+          </button>
+          <button mat-icon-button class="float-right" (click)="showOnMap(variant.library)" title="Показати бібліотеку на мапі">
+            <mat-icon aria-label="Показати бібліотеку на мапі">map</mat-icon>
+          </button>
+        </mat-card-actions>
+      </mat-card>
+
+    </div>
+    <img *ngIf="message.type === 'image'" class="image" src="{{ 'http://api.qrserver.com/v1/create-qr-code/?data=' + message.content }}" alt="QR код для сканування в бібліотеці">
+    <div *ngIf="message.type === 'map'">
+      <button mat-icon-button class="float-right" (click)="showOnMap(message.content)" title="Показати бібліотеку на мапі">
+        <mat-icon aria-label="Показати бібліотеку на мапі">map</mat-icon>
+      </button>
+    </div>
   </div>
 </div>
 <div class="chat-footer">
   <mat-form-field class="message-input">
-    <input matInput placeholder="Повідомлення" [(ngModel)]="currentMessage" (keyup.enter)="send()">
+    <input matInput placeholder="Повідомлення" [(ngModel)]="currentMessage" (keyup.enter)="send()" autofocus [disabled]="state !== 'search'">
   </mat-form-field>
-  <button mat-icon-button (click)="send()" title="Надіслати" color="primary">
+  <button mat-icon-button (click)="send()" title="Надіслати" color="primary" [disabled]="state !== 'search'">
     <mat-icon aria-label="Надіслати">send</mat-icon>
   </button>
 </div>
