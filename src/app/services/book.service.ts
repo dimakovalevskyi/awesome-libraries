@@ -4,6 +4,12 @@ import { MatSnackBar, MatDialog } from '@angular/material';
 import { BookEditDialogComponent } from '../components/admin/book-edit-dialog/book-edit-dialog.component';
 import { Book } from '../models/book';
 
+/**
+ * Service for work with books
+ *
+ * @export
+ * @class BookService
+ */
 @Injectable({
   providedIn: 'root'
 })
@@ -15,6 +21,13 @@ export class BookService {
     private dialog: MatDialog
   ) { }
 
+  /**
+   * Open popup for editing book
+   *
+   * @param {Book} book
+   * @returns {Promise}
+   * @memberof BookService
+   */
   edit(book: Book) {
     return this.dialog.open(BookEditDialogComponent, {
       width: '550px',
@@ -22,6 +35,12 @@ export class BookService {
     }).afterClosed().toPromise();
   }
 
+  /**
+   * Open popup for adding book
+   *
+   * @returns {Promise}
+   * @memberof BookService
+   */
   add() {
     return this.dialog.open(BookEditDialogComponent, {
       width: '550px',
@@ -29,6 +48,13 @@ export class BookService {
     }).afterClosed().toPromise();
   }
 
+  /**
+   * Get count of book which are given and not exist in library
+   *
+   * @param {Book} book
+   * @returns {number}
+   * @memberof BookService
+   */
   getBlockedCopies(book: Book) {
     return book.copies.filter(element => element.returnDate > new Date().getTime()).length;
   }

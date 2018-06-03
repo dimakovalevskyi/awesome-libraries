@@ -4,6 +4,13 @@ import { Observable } from 'rxjs';
 import { LoaderService } from './loader.service';
 import { tap } from 'rxjs/operators';
 
+/**
+ * HttpInterceptor for displaying loader
+ *
+ * @export
+ * @class LoaderInterceptor
+ * @implements {HttpInterceptor}
+ */
 @Injectable()
 export class LoaderInterceptor implements HttpInterceptor {
 

@@ -62,6 +62,7 @@
 .variant-card {
   margin-right: 15px;
   max-width: 250px;
+  flex-shrink: 0;
 }
 .library-address {
   display: block;

@@ -4,6 +4,12 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
+/**
+ * Login service
+ *
+ * @export
+ * @class AuthService
+ */
 @Injectable()
 export class AuthService {
   constructor(
@@ -11,6 +17,13 @@ export class AuthService {
     private router: Router
   ) { }
 
+  /**
+   * Login as login and password
+   *
+   * @param {string} username
+   * @param {string} password
+   * @memberof AuthService
+   */
   login(username: string, password: string) {
     return this.http.post<any>('/api/login', { username: username, password: password })
       .pipe(map((res: any) => {
@@ -20,11 +33,22 @@ export class AuthService {
       }));
   }
 
+  /**
+   * Do logout
+   *
+   * @memberof AuthService
+   */
   logout() {
     localStorage.removeItem('currentUser');
     this.router.navigate(['/']);
   }
 
+  /**
+   * Check if user is logginned now
+   *
+   * @returns {boolean}
+   * @memberof AuthService
+   */
   isLoggined() {
     return !!localStorage.getItem('currentUser');
   }

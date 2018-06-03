@@ -5,6 +5,12 @@ import { Library } from '../models/library';
 import { MapComponent } from '../components/map/map.component';
 import { Book } from '../models/book';
 
+/**
+ * Service for work with chat messages
+ *
+ * @export
+ * @class ChatService
+ */
 @Injectable({
   providedIn: 'root'
 })
@@ -16,6 +22,13 @@ export class ChatService {
     private dialog: MatDialog
   ) { }
 
+  /**
+   * Find in library by string query
+   *
+   * @param {string} query
+   * @returns {Promise<any>}
+   * @memberof ChatService
+   */
   search(query: string): Promise<any> {
     return this.http
       .get<any>('/api/search', {
@@ -24,6 +37,12 @@ export class ChatService {
       .toPromise();
   }
 
+  /**
+   * Open popup with map that shows library coordinates on map
+   *
+   * @param {Library} library
+   * @memberof ChatService
+   */
   showOnMap(library: Library): void {
     this.dialog.open(MapComponent, {
       width: '600px',
@@ -34,6 +53,13 @@ export class ChatService {
     });
   }
 
+  /**
+   * Mark book as taken by user
+   *
+   * @param {{book: Book, library: Library}} variant
+   * @returns {Promise}
+   * @memberof ChatService
+   */
   take(variant: {book: Book, library: Library}) {
     return this.http
       .post<any>('/api/take', variant)
