@@ -63,7 +63,7 @@ import { ImportComponent } from './components/import/import.component';
     FormsModule,
     routing,
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyCau6_koBHjV8it4a5F1AGj1OQjgojI1B8'
+      apiKey: 'PLACE_YOUR_API_KEY'
     }),
     ReactiveFormsModule,
     BrowserAnimationsModule,
